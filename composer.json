@@ -1,0 +1,22 @@
+{
+  "name": "Markcial/fs-wrapper",
+  "description": "Convenience wrapper for filesystem operations",
+  "minimum-stability": "stable",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Marc Garcia",
+      "email": "markcial@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {"Fs\\": "src/"},
+    "files": ["src/functions.php"]
+  },
+  "require-dev": {
+    "phpspec/phpspec": "2.4.1"
+  },
+  "require": {
+    "psy/psysh": "0.7.x-dev"
+  }
+}

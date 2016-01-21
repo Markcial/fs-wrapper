@@ -1,0 +1,6 @@
+suites:
+    base:
+        namespace: Fs
+        psr4_prefix: Fs
+        spec_prefix: Specs
+        spec_path: specs
