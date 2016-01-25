@@ -5,11 +5,11 @@ namespace Fs;
 class Resource
 {
     /** @var string */
-    private $fd;
+    protected $fd;
     /** @var string */
     private $mode;
     /** @var resource */
-    private $handle;
+    protected $handle;
 
     /**
      * Resource constructor.
@@ -56,6 +56,28 @@ class Resource
     }
 
     /**
+     * @param $operation
+     * @param $wouldblock
+     *
+     * @return bool
+     */
+    public function lock($operation, &$wouldblock)
+    {
+        return \flock($this->handle, $operation, $wouldblock);
+    }
+
+    /**
+     * @param $format
+     * @param ...$params
+     *
+     * @return mixed
+     */
+    public function scanf($format, &...$params)
+    {
+        return \fscanf($this->handle, $format, ...$params);
+    }
+
+    /**
      * @return string
      */
     public function char()
@@ -95,12 +117,7 @@ class Resource
      */
     public function eof()
     {
-        if ($this->char() === false) {
-            return true;
-        }
-        $this->seek(-1, SEEK_CUR);
-
-        return false;
+        return \feof($this->handle);
     }
 
     /**
@@ -228,15 +245,6 @@ class Resource
     /**
      * @return bool
      */
-    public function isExecutable()
-    {
-        if ($this->type() == 'file') {
-            return \is_executable($this->fd);
-        }
-
-        return false;
-    }
-
     public function isClosed()
     {
         return !$this->isOpened();
@@ -256,6 +264,13 @@ class Resource
     public function exists()
     {
         return \file_exists($this->fd);
+    }
+
+    public function __destruct()
+    {
+        if ($this->isOpened()) {
+            $this->close();
+        }
     }
 
     /**

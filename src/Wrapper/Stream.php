@@ -7,15 +7,6 @@ abstract class Stream
     /** @var string */
     protected $prefix;
 
-    /**
-     * Stream constructor.
-     * @param $prefix
-     */
-    public function __construct($prefix)
-    {
-        $this->prefix = $prefix;
-    }
-
     abstract public function dir_closedir();
     abstract public function dir_opendir($path, $options);
     abstract public function dir_readdir();
@@ -40,17 +31,26 @@ abstract class Stream
     abstract public function stream_set_option($option, $arg1, $arg2);
     abstract public function stream_metadata($path, $option, $var);
 
+    /**
+     * @return string
+     */
+    protected function getPrefix() {
+        $class = new \ReflectionClass(get_called_class());
+
+        return strtolower($class->getShortName());
+    }
+
     public function register() {
-        \stream_wrapper_register($this->prefix, get_called_class());
+        \stream_wrapper_register($this->getPrefix(), get_called_class());
     }
 
     public function unregister()
     {
-        \stream_wrapper_unregister($this->prefix);
+        \stream_wrapper_unregister($this->getPrefix());
     }
 
     public function restore()
     {
-        \stream_wrapper_restore($this->prefix);
+        \stream_wrapper_restore($this->getPrefix());
     }
 }

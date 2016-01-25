@@ -43,3 +43,11 @@ function open($path, $mode) {
 
     return $rsc;
 }
+
+function mkdir($path, $mode = 0777, $recursive = false) {
+    if (\mkdir($path, $mode, $recursive)) {
+        return new Directory($path);
+    }
+
+    return false;
+}

@@ -2,7 +2,6 @@
 
 namespace Fs;
 
-class Char extends Inode
+class Char extends File
 {
-
 }

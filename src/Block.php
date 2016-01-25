@@ -2,7 +2,6 @@
 
 namespace Fs;
 
-class Block extends Inode
+class Block extends File
 {
-
 }
